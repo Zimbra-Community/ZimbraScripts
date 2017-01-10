@@ -11,7 +11,8 @@ usage(){
   echo "[-c cos] = Number of domains to create"
   echo "[-t 1] = Test Mode - create scripts but don't change the system."
   echo ""
-  echo " All arguments are optional, if any argument is missing you'll be prompted to either fall back to default values or quit."
+  echo "At least one argument between \"-d\", \"-m\" \"-l\", \"-c\" and \"-t\" is required, if any argument is missing you'll be prompted to either fall back to default values or quit."
+  echo "If no argument at all is entered or if -h is specified, the script will display this usage message and quit."
   echo ""
   }
 
@@ -80,7 +81,7 @@ for i in `eval echo {0..$DOMAINS_R}`; do echo "cd example$i.com"; done > /tmp/cr
 ## Mailboxes
 for i in `eval echo {1..$MAILBOXES}`; do echo "ca user$i@example$(($i % $DOMAINS)).com \"\" displayName User$i cn User$i"; done > /tmp/createAccount.zmprov
 ## Dlists
-for i in `eval echo {1..$LISTS}`; do echo "cdl dl$i@example(($i % $DOMAINS)).com"; done > /tmp/createDlist.zmprov
+for i in `eval echo {1..$LISTS}`; do echo "cdl dl$i@example$(($i % $DOMAINS)).com"; done > /tmp/createDlist.zmprov
 ## Populate Dlists
 for i in `eval echo {1..$MAILBOXES}`; do echo "adlm dl$(($i % $LISTS))@example$(($i % $DOMAINS)).com user$i@example$(($i % $DOMAINS)).com"; done > /tmp/popDlist.zmprov
 ## Create Classes of Service
