@@ -4,7 +4,7 @@ usage(){
   echo ""
   echo "Usage: $0  [-h] [-d domains] [-m mailboxes] [-l dlists] [-c cos] [-t 1]"
   echo ""
-  echo "-h = Print this help message and exit."
+  echo "[-h] = Print this help message and exit."
   echo "[-d domains] = Number of domains to create"
   echo "[-m mailboxes] = Number of domains to create"
   echo "[-l dlists] = Number of domains to create"
