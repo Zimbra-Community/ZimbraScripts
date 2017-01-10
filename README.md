@@ -13,6 +13,7 @@ Usage: $0  [-h] [-d domains] [-m mailboxes] [-l dlists] [-c cos] [-t 1]
 [-c cos] = Number of domains to create.
 [-t 1] = Test Mode - create scripts but don't change the system.
 
-All arguments are optional, if any argument is missing you'll be prompted to either fall back to default values or quit.
+All arguments are optional, if any argument is missing you'll be prompted to either 
+fall back to default values or quit.
 
 ```
