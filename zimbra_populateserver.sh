@@ -75,7 +75,8 @@ for i in `eval echo {0..$DOMAINS_R}`; do echo "cd example$i.com"; done > /tmp/cr
 ## Mailboxes
 for i in `eval echo {1..$MAILBOXES}`; do echo "ca user$i@example$(($i % $DOMAINS)).com \"\" displayName User$i cn User$i"; done > /tmp/createAccount.zmprov
 ## Dlists
-for i in `eval echo {1..$LISTS}`; do echo "cdl dl$i@example$(($i % $DOMAINS)).com"; done > /tmp/createDlist.zmprov
+let LISTS_R=$LISTS-1
+for i in `eval echo {0..$LISTS_R}`; do echo "cdl dl$i@example$(($i % $DOMAINS)).com"; done > /tmp/createDlist.zmprov
 ## Populate Dlists
 for i in `eval echo {1..$MAILBOXES}`; do echo "adlm dl$(($i % $LISTS))@example$(($i % $DOMAINS)).com user$i@example$(($i % $DOMAINS)).com"; done > /tmp/popDlist.zmprov
 ## Create Classes of Service
