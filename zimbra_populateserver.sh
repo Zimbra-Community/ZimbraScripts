@@ -27,6 +27,7 @@ usage(){
   MAILBOXES=100
   LISTS=10
   COS=10
+  DRYRUN=0
 
 # Argument validation
 if [ $# -eq 0 ]; then
@@ -51,13 +52,6 @@ while getopts :d:m:l:c:t:h opts; do
     exit 1
   fi
 done
-
-if [ $DRYRUN -ne 1 ] ; then
-  echo ""
-  echo "Invalid value for -t: if you want to run in test mode use [-t 1], otherwise omit the argument."
-  echo "Exiting..."
-  exit 1
-fi
 
 if [ $# -lt 8 ]; then
   echo ""
