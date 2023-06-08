@@ -5,11 +5,13 @@ usage(){
   echo "Usage: $0  [-h] [-d domains] [-m mailboxes] [-l dlists] [-c cos] [-t 1]"
   echo ""
   echo "[-h] = Print this help message and exit."
-  echo "[-d domains] = Number of domains to create"
-  echo "[-m mailboxes] = Number of domains to create"
-  echo "[-l dlists] = Number of domains to create"
-  echo "[-c cos] = Number of domains to create"
-  echo "[-t 1] = Test Mode - create scripts but don't change the system."
+  echo "[-d domains] = Number of domains to create looping \"zmprov cd ..\""
+  echo "[-m mailboxes] = Number of domains to create looping \"zmprov ca ..\""
+  echo "[-l dlists] = Number of distribution lists to create looping \"zmrpov cdl ..; zmprov adlm ..\""
+  echo "[-c cos] = Number of classes of service to create looping \"zmprov cc ..; zmprov ma ..\" (currently implemented through \"zmprov gac\")"
+  echo "[-t 1] = Test Mode - Create scripts in /tmp but don't change the system (aka. dry-run)."
+	echo "                   - To later manually run the scripts, execute as the zimbra user \"zmprov -f /tmp/filename\", Picking \"filename\" from : "
+  echo "                   - createDomain.zmprov createAccount.zmprov createDlist.zmprov popDlist.zmprov createCOS.zmprov popCOS.zmprov"
   echo ""
   echo "At least one argument between \"-d\", \"-m\" \"-l\", \"-c\" and \"-t\" is required, if any argument is missing you'll be prompted to either fall back to default values or quit."
   echo "If no argument at all is entered or if -h is specified, the script will display this usage message and quit."
@@ -55,7 +57,7 @@ done
 
 if [ $# -lt 8 ]; then
   echo ""
-  echo "Not enough arguments, any missing value will fall back to default (Domains: 10 | Mailboxes 100 | DLists 10 | COS 10)"
+  echo "Not enough arguments, any missing value will fall back to default (Domains: $DOMAINS | Mailboxes $MAILBOXES | DLists $LISTS | COS $COS)"
   read -r -p "Do you want to continue? [y/n] " response
     if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
       then
@@ -82,7 +84,7 @@ for i in `eval echo {1..$MAILBOXES}`; do echo "adlm dl$(($i % $LISTS))@example$(
 ## Create Classes of Service
 for i in `eval echo {1..$COS}`; do echo "cc CoS$i" ; done > /tmp/createCOS.zmprov
 ## Populate Classes of Service
-COSLIST=(`su - zimbra -c "zmprov gac -v | grep -i zimbraid: | sed 's/zimbraId: //'"`)
+COSLIST=(`su - zimbra -c "zmprov gac -v | grep -i zimbraid: | sed 's/zimbraId: //'"`) ## Problem with dry_run : requires prior zimbra account & createCOS.zmprov exec
 for i in `eval echo {1..$MAILBOXES}`; do echo "ma user$i@example$(($i % $DOMAINS)).com zimbraCosID ${COSLIST[$(($i % $DOMAINS))]}"; done > /tmp/popCOS.zmprov
 unset COSLIST
 
